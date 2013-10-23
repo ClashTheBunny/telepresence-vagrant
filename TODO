@@ -1,0 +1,6 @@
+TODO
+====
+
+* Nginx configuration section to the bootstrap script that will start nginx pointed to telepresence/website
+* Forwarding all of the ports so that you can just use the telepresence server
+* start telepresence in the background so that it's actually running with the example configuration file
