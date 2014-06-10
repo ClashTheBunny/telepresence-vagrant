@@ -1,29 +1,9 @@
 #!/bin/bash
 
-echo "dash    dash/sh boolean false" | sudo debconf-set-selections ; sudo dpkg-reconfigure --frontend=noninteractive dash
-
-sudo sed -i "/^# deb.*multiverse/ s/^# //" /etc/apt/sources.list
-sudo sed -i "/^# deb.*partner/ s/^# //" /etc/apt/sources.list
-
-sudo apt-get update  
-
-mkdir -p /vagrant/ubuntu_archives
-
-cd /vagrant/ubuntu_archives
-
-find *deb -type f -a -not -type l | while read file; do sudo ln -sf $PWD/$file /var/cache/apt/archives/$file; done
-
-sudo apt-get -y install git subversion
-
-cd /vagrant/
+cd /telepresence/
 [ ! -d ffmpeg ] && git clone -b release/1.2 git://source.ffmpeg.org/ffmpeg.git ffmpeg &
 [ ! -d doubango ] && ( while ps aux | grep -v grep | grep -q "source.ffmpeg.org/ffmpeg.git"; do sleep 5; done; svn checkout http://doubango.googlecode.com/svn/branches/2.0/doubango doubango ) &
 [ ! -d telepresence ] && ( while ps aux | grep -v grep | grep -q "doubango.googlecode.com/svn/branches/2.0/doubango"; do sleep 5; done; svn checkout https://telepresence.googlecode.com/svn/trunk/ telepresence ) &
-
-sudo apt-get -y install libopenal-dev libxml2-dev pkg-config cmake wget libtool autoconf automake build-essential libreoffice-dev libfreetype6-dev libfaac-dev libmp3lame-dev libass-dev libgpac-dev libsrtp0-dev srtp-utils libspeex-dev libspeexdsp-dev libogg-dev libvorbis-dev libtheora-dev yasm libvpx-dev libopencore-amrwb-dev libopencore-amrnb-dev libgsm1-dev libopus-dev libx264-dev libncurses5-dev openssl libssl-dev
-sudo apt-get -y install libfdk-aac-dev 
-
-find /var/cache/apt/archives/*deb -type f -a -not -type l | while read file; do sudo mv $file .; sudo ln -sf $PWD/${file/*archives\//} $file; done
 
 export LD_LIBRARY_PATH=/usr/local/lib/
 
@@ -45,7 +25,7 @@ export LD_LIBRARY_PATH=/usr/local/lib/
 #./autogen.sh && ./configure
 #make && sudo make install || exit 1
 
-cd /vagrant/
+cd /telepresence/
 
 while ps aux | grep -v grep | grep "source.ffmpeg.org/ffmpeg.git"
 do
@@ -69,7 +49,7 @@ git pull
 --enable-nonfree
 make && sudo make install || exit 1
 
-cd /vagrant/
+cd /telepresence/
 
 while ps aux | grep -v grep | grep "doubango.googlecode.com/svn/branches/2.0/doubango"
 do
@@ -83,7 +63,7 @@ sed -i 's/TDAV_VP8_DISABLE_EXTENSION       0/TDAV_VP8_DISABLE_EXTENSION       1/
 #./autogen.sh && ./configure --with-speexdsp --with-ffmpeg && make && sudo make install || exit 1
 ./autogen.sh && ./configure --with-ssl --with-srtp --with-vpx --with-yuv --with-amr --with-speex --with-speexdsp --enable-speexresampler --enable-speexdenoiser --with-opus --with-gsm --with-ffmpeg && make && sudo make install || exit 1
 
-cd /vagrant/
+cd /telepresence/
 
 while ps aux | grep -v grep | grep "telepresence.googlecode.com/svn/trunk/"
 do
