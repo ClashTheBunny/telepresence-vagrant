@@ -3,7 +3,7 @@
 cd /telepresence/
 [ ! -d ffmpeg ] && git clone -b release/1.2 git://source.ffmpeg.org/ffmpeg.git ffmpeg &
 [ ! -d doubango ] && ( while ps aux | grep -v grep | grep -q "source.ffmpeg.org/ffmpeg.git"; do sleep 5; done; svn checkout http://doubango.googlecode.com/svn/branches/2.0/doubango doubango ) &
-[ ! -d telepresence ] && ( while ps aux | grep -v grep | grep -q "doubango.googlecode.com/svn/branches/2.0/doubango"; do sleep 5; done; svn checkout https://telepresence.googlecode.com/svn/trunk/ telepresence ) &
+[ ! -d telepresence ] && ( while ps aux | grep -v grep | grep -q "doubango.googlecode.com/svn/branches/2.0/doubango"; do sleep 5; done; svn checkout http://telepresence.googlecode.com/svn/trunk/ telepresence ) &
 
 export LD_LIBRARY_PATH=/usr/local/lib/
 
