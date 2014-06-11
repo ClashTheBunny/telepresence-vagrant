@@ -1,13 +1,21 @@
-This is a vagrant file and a bootstrap file that will build and install OpenTelepresence from https://code.google.com/p/telepresence/.
+OpenTelepresence on Docker
+==========================
 
-It works as of 2013-10-20 and uses the latest version of ffmpeg 1.2, doubango, and telepresence based off of the rest of the requirements being packages in Ubuntu Saucy Salamander.
+This is a docker file and a bootstrap file that will build and install OpenTelepresence from https://code.google.com/p/telepresence/.
+
+It works as of 2014-06-11 and uses the latest version of libyuv, ffmpeg 1.2, doubango, and telepresence based off of the rest of the requirements being packages in Ubuntu Trusty Tahr.
 
 Run:
 
-git clone https://github.com/ClashTheBunny/telepresence-vagrant.git
+```bash
+git clone https://github.com/ClashTheBunny/telepresence-vagrant.git -b docker
 cd telepresence-vagrant
-vagrant up
+docker build -t "clashthebunny/telepresence-build" .
+docker run -v /telepresence/ --name telepresence-source busybox true
+docker run --rm -i -t --volumes-from telepresence-source --name telepresence clashthebunny/telepresence-build:latest
+```
 
 and you should end up with a fully built telepresence in the virtual machine in /usr/local/sbin/.
 
-Run ./telepresence from that directory and you should be running the software.
+Run ./telepresence from that directory and you should be running the software:
+docker run --rm -i -t --volumes-from telepresence-source --name telepresence clashthebunny/telepresence-build:latest "cd /usr/local/sbin; ./telepresence"
