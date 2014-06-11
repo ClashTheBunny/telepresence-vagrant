@@ -27,10 +27,27 @@ export LD_LIBRARY_PATH=/usr/local/lib/
 
 cd /telepresence/
 
-while ps aux | grep -v grep | grep "source.ffmpeg.org/ffmpeg.git"
+[ -d libyuv ] || mkdir -p libyuv 
+cd libyuv
+[ -f gclient ] || {
+    svn co http://src.chromium.org/svn/trunk/tools/depot_tools .
+    ./gclient config http://libyuv.googlecode.com/svn/trunkr
+}
+./gclient sync && cd trunk
+CXXFLAGS="-O3 -Wall -pedantic -fomit-frame-pointer -fPIC" make -f linux.mk
+
+cp libyuv.a /usr/local/lib
+mkdir --parents /usr/local/include/libyuv/libyuv
+cp -rf include/libyuv.h /usr/local/include/libyuv
+cp -rf include/libyuv/*.h /usr/local/include/libyuv/libyuv
+ln -s /usr/local/include/libyuv/libyuv /usr/local/include/libyuv/libyuv/
+
+while ps aux | grep -v grep | grep -e "source.ffmpeg.org/ffmpeg.git"
 do
 	sleep 5
 done
+
+cd /telepresence/
 
 cd ffmpeg
 git pull

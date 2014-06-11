@@ -15,8 +15,10 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN  echo 'APT::Install-Recommends "false";' >> /etc/apt/apt.conf.d/01norecommends
 
-RUN apt-get -y install git subversion libopenal-dev libxml2-dev pkg-config cmake wget libtool autoconf automake build-essential libreoffice-dev libfreetype6-dev libfaac-dev libmp3lame-dev libass-dev libgpac-dev libsrtp0-dev srtp-utils libspeex-dev libspeexdsp-dev libogg-dev libvorbis-dev libtheora-dev yasm libvpx-dev libopencore-amrwb-dev libopencore-amrnb-dev libgsm1-dev libopus-dev libx264-dev libncurses5-dev openssl libssl-dev libfdk-aac-dev 
+RUN apt-get -y install git subversion libopenal-dev libxml2-dev pkg-config cmake wget libtool autoconf automake build-essential libreoffice-dev libfreetype6-dev libfaac-dev libmp3lame-dev libass-dev libgpac-dev libsrtp0-dev srtp-utils libspeex-dev libspeexdsp-dev libogg-dev libvorbis-dev libtheora-dev yasm libvpx-dev libopencore-amrwb-dev libopencore-amrnb-dev libgsm1-dev libopus-dev libx264-dev libncurses5-dev openssl libssl-dev libfdk-aac-dev python
 
-ADD ./bootstrap_ubuntu.sh /telepresence/
+RUN mkdir -p /usr/local/sbin
 
-CMD ["/telepresence/bootstrap_ubuntu.sh"]
+ADD ./bootstrap_ubuntu.sh /usr/local/sbin/
+
+CMD ["bootstrap_ubuntu.sh"]
