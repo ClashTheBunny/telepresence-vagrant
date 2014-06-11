@@ -95,3 +95,5 @@ sed -i 's/tsk_thread_sleep/sleep/' source/main.cc
 ./autogen.sh && ./configure --with-doubango=/usr/local CXXFLAGS="$(grep include telepresence.vcproj  | grep tiny | head -1 | tr '\\' '/' | sed -e 's/;/ -I/g' -e 's#/branches/2.0/Doubango/#/#g' -e 's#.*thirdparties/win32/include##g' -e 's/-I&quot.*//g')"
 make && sudo make install || exit 1
 sudo make samples
+
+cp -rf /telepresence/telepresence/website/* /usr/share/nginx/html/
